@@ -11,10 +11,15 @@ import (
 	"github.com/fatih/structs"
 )
 
+
 func Pay(reqDto ReqPayDto, custDto ReqCustomerDto) (int, RespPayDto, error) {
 	var respDto RespPayDto
 
-	BuildCommonParam(&reqDto,"unified.trade.micropay")
+	reqDto.Service="unified.trade.micropay"
+	reqDto.Version="2.0"
+	reqDto.Charset="UTF-8"
+	reqDto.SignType="MD5"
+	reqDto.NonceStr=random.Uuid("")
 
 	if len(reqDto.OutTradeNo) == 0 {
 		reqDto.OutTradeNo = random.NewUuid(PRE_OUTTRADENO)
@@ -22,6 +27,7 @@ func Pay(reqDto ReqPayDto, custDto ReqCustomerDto) (int, RespPayDto, error) {
 	if len(reqDto.MchCreateIp) == 0 {
 		reqDto.MchCreateIp = "127.0.0.1"
 	}
+
 	reqStruct := structs.New(reqDto)
 	reqStruct.TagName = "json"
 	reqMap := reqStruct.Map()
@@ -49,10 +55,38 @@ func Pay(reqDto ReqPayDto, custDto ReqCustomerDto) (int, RespPayDto, error) {
 	return statusCode, respDto, nil
 }
 
-func BuildCommonParam(reqDto *ReqPayDto, service string)  {
-	reqDto.Service=service
+func Query(reqDto ReqQueryDto, custDto ReqCustomerDto) (int, RespQueryDto, error) {
+	var respDto RespQueryDto
+	reqDto.Service="unified.trade.query"
 	reqDto.Version="2.0"
 	reqDto.Charset="UTF-8"
 	reqDto.SignType="MD5"
 	reqDto.NonceStr=random.Uuid("")
+
+	reqStruct := structs.New(reqDto)
+	reqStruct.TagName = "json"
+	reqMap := reqStruct.Map()
+
+	signStr := base.JoinMapObject(reqMap)
+
+	var err error
+	reqDto.Sign = sign.MakeMd5Sign(signStr, custDto.Key)
+	b, err := xml.MarshalIndent(reqDto, "", " ")
+	if err != nil {
+		return http.StatusBadRequest, respDto, err
+	}
+	xmlData := string(b)
+	statusCode, err := httpreq.New(http.MethodPost, OPENAPIURL,
+		xmlData, func(httpReq *httpreq.HttpReq) error {
+			httpReq.ReqDataType = httpreq.XmlType
+			httpReq.RespDataType = httpreq.XmlType
+			return nil
+		}).
+		Call(&respDto)
+	if err != nil {
+		return http.StatusInternalServerError, respDto, err
+	}
+
+	return statusCode, respDto, nil
 }
+
