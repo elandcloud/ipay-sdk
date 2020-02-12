@@ -4,6 +4,8 @@ import (
 	"encoding/xml"
 )
 
+// 1.pay
+
 type ReqPayDto struct {
 	XMLName xml.Name `xml:"xml" json:"xml,omitempty"`
 
@@ -43,9 +45,6 @@ type ReqPayDto struct {
 }
 
 //response
-
-type RespDto struct {
-}
 
 type RespPayDto struct {
 	XMLName xml.Name `xml:"xml" json:"xml,omitempty"`
@@ -117,6 +116,99 @@ type FundBillListDto struct {
 	fund_channel string  `xml:"fund_channel,omitempty" json:"fund_channel,omitempty"`
 	amount       float32 `xml:"amount,omitempty" json:"amount,omitempty"`
 }
+
+// 2.query
+
+type ReqQueryDto struct {
+	XMLName xml.Name `xml:"xml" json:"xml,omitempty"`
+
+	//========== common
+
+	Service  string `xml:"service,omitempty" json:"service,omitempty"`
+	Version  string `xml:"version,omitempty" json:"version,omitempty"`
+	Charset  string `xml:"charset,omitempty" json:"charset,omitempty"`
+	SignType string `xml:"sign_type,omitempty" json:"sign_type,omitempty"`
+	MchId    string `xml:"mch_id,omitempty" json:"mch_id,omitempty"`
+
+	NonceStr    string `xml:"nonce_str,omitempty" json:"nonce_str,omitempty"`
+	Sign        string `xml:"sign,omitempty" json:"sign,omitempty"`
+	SignAgentno string `xml:"sign_agentno,omitempty" json:"sign_agentno,omitempty"`
+	Groupno     string `xml:"groupno,omitempty" json:"groupno,omitempty"`
+
+	//========== pay req
+
+	OutTradeNo    string `xml:"out_trade_no,omitempty" json:"out_trade_no,omitempty"`
+	TransactionId string `xml:"transaction_id,omitempty" json:"transaction_id,omitempty"`
+}
+
+type RespQueryDto struct {
+	XMLName xml.Name `xml:"xml" json:"xml,omitempty"`
+
+	//========== common
+
+	Version     string `xml:"version,omitempty" json:"version,omitempty"`
+	Charset     string `xml:"charset,omitempty" json:"charset,omitempty"`
+	SignType    string `xml:"sign_type,omitempty" json:"sign_type,omitempty"`
+	SignAgentno string `xml:"sign_agentno,omitempty" json:"sign_agentno,omitempty"`
+	Groupno     string `xml:"groupno,omitempty" json:"groupno,omitempty"`
+
+	Status     string `xml:"status,omitempty" json:"status,omitempty"`
+	Message    string `xml:"message,omitempty" json:"message,omitempty"`
+	Code       string `xml:"code,omitempty" json:"code,omitempty"`
+	ResultCode string `xml:"result_code,omitempty" json:"result_code,omitempty"`
+
+	MchId      string `xml:"mch_id,omitempty" json:"mch_id,omitempty"`
+	DeviceInfo string `xml:"device_info,omitempty" json:"device_info,omitempty"`
+	NonceStr   string `xml:"nonce_str,omitempty" json:"nonce_str,omitempty"`
+	ErrCode    string `xml:"err_code,omitempty" json:"err_code,omitempty"`
+	ErrMsg     string `xml:"err_msg,omitempty" json:"err_msg,omitempty"`
+
+	Sign string `xml:"sign,omitempty" json:"sign,omitempty"`
+
+	//========== pay resp
+
+	TradeState       string `xml:"trade_state,omitempty" json:"trade_state,omitempty"`
+	TradeStateDesc       string `xml:"trade_state_desc,omitempty" json:"trade_state_desc,omitempty"`
+	TradeType       string `xml:"trade_type,omitempty" json:"trade_type,omitempty"`
+	Appid       string `xml:"appid,omitempty" json:"appid,omitempty"`
+	SubAppid       string `xml:"sub_appid,omitempty" json:"sub_appid,omitempty"`
+	Openid      string `xml:"openid,omitempty" json:"openid,omitempty"`
+	SubOpenid   string `xml:"sub_openid,omitempty" json:"sub_openid,omitempty"`
+	IsSubscribe string `xml:"is_subscribe,omitempty" json:"is_subscribe,omitempty"`
+	SubIsSubscribe string `xml:"sub_is_subscribe,omitempty" json:"sub_is_subscribe,omitempty"`
+
+	TransactionId string `xml:"transaction_id,omitempty" json:"transaction_id,omitempty"`
+	OutTransactionId string `xml:"out_transaction_id,omitempty" json:"out_transaction_id,omitempty"`
+	OutTradeNo string `xml:"out_trade_no,omitempty" json:"out_trade_no,omitempty"`
+	TotalFee int `xml:"total_fee,omitempty" json:"total_fee,omitempty"`
+	CashFee int `xml:"cash_fee,omitempty" json:"cash_fee,omitempty"`
+
+	PromotionDetail string `xml:"promotion_detail,omitempty" json:"promotion_detail,omitempty"`
+	UnionpayDiscount string `xml:"unionpay_discount,omitempty" json:"unionpay_discount,omitempty"`
+	InvoiceAmount  float32 `xml:"invoice_amount,omitempty" json:"invoice_amount,omitempty"`
+	BuyerLogonId string `xml:"buyer_logon_id,omitempty" json:"buyer_logon_id,omitempty"`
+	BuyerPayAmount string `xml:"buyer_pay_amount,omitempty" json:"buyer_pay_amount,omitempty"`
+	
+	BuyerUserId string `xml:"buyer_user_id,omitempty" json:"buyer_user_id,omitempty"`
+	PointAmount float32 `xml:"point_amount,omitempty" json:"point_amount,omitempty"`
+	ReceiptAmount float32 `xml:"receipt_amount,omitempty" json:"receipt_amount,omitempty"`
+	FundBillList string `xml:"fund_bill_list,omitempty" json:"fund_bill_list,omitempty"`
+	DiscountGoodsDetail string `xml:"discount_goods_detail,omitempty" json:"discount_goods_detail,omitempty"`
+
+	CouponFee      int `xml:"coupon_fee,omitempty" json:"coupon_fee,omitempty"`
+	Mdiscount      int `xml:"mdiscount,omitempty" json:"mdiscount,omitempty"`
+	FeeType      string `xml:"fee_type,omitempty" json:"fee_type,omitempty"`
+	Attach      string `xml:"attach,omitempty" json:"attach,omitempty"`
+	BankType      string `xml:"bank_type,omitempty" json:"bank_type,omitempty"`
+
+	BankBillno      string `xml:"bank_billno,omitempty" json:"bank_billno,omitempty"`
+	TimeEnd      string `xml:"time_end,omitempty" json:"time_end,omitempty"`
+	SettleKey      string `xml:"settle_key,omitempty" json:"settle_key,omitempty"`
+
+
+}
+
+// custom
 
 type ReqCustomerDto struct {
 	Url string `json:"url,omitempty"`
