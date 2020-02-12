@@ -167,45 +167,43 @@ type RespQueryDto struct {
 
 	//========== pay resp
 
-	TradeState       string `xml:"trade_state,omitempty" json:"trade_state,omitempty"`
-	TradeStateDesc       string `xml:"trade_state_desc,omitempty" json:"trade_state_desc,omitempty"`
-	TradeType       string `xml:"trade_type,omitempty" json:"trade_type,omitempty"`
-	Appid       string `xml:"appid,omitempty" json:"appid,omitempty"`
+	TradeState     string `xml:"trade_state,omitempty" json:"trade_state,omitempty"`
+	TradeStateDesc string `xml:"trade_state_desc,omitempty" json:"trade_state_desc,omitempty"`
+	TradeType      string `xml:"trade_type,omitempty" json:"trade_type,omitempty"`
+	Appid          string `xml:"appid,omitempty" json:"appid,omitempty"`
 	SubAppid       string `xml:"sub_appid,omitempty" json:"sub_appid,omitempty"`
-	Openid      string `xml:"openid,omitempty" json:"openid,omitempty"`
-	SubOpenid   string `xml:"sub_openid,omitempty" json:"sub_openid,omitempty"`
-	IsSubscribe string `xml:"is_subscribe,omitempty" json:"is_subscribe,omitempty"`
+	Openid         string `xml:"openid,omitempty" json:"openid,omitempty"`
+	SubOpenid      string `xml:"sub_openid,omitempty" json:"sub_openid,omitempty"`
+	IsSubscribe    string `xml:"is_subscribe,omitempty" json:"is_subscribe,omitempty"`
 	SubIsSubscribe string `xml:"sub_is_subscribe,omitempty" json:"sub_is_subscribe,omitempty"`
 
-	TransactionId string `xml:"transaction_id,omitempty" json:"transaction_id,omitempty"`
+	TransactionId    string `xml:"transaction_id,omitempty" json:"transaction_id,omitempty"`
 	OutTransactionId string `xml:"out_transaction_id,omitempty" json:"out_transaction_id,omitempty"`
-	OutTradeNo string `xml:"out_trade_no,omitempty" json:"out_trade_no,omitempty"`
-	TotalFee int `xml:"total_fee,omitempty" json:"total_fee,omitempty"`
-	CashFee int `xml:"cash_fee,omitempty" json:"cash_fee,omitempty"`
+	OutTradeNo       string `xml:"out_trade_no,omitempty" json:"out_trade_no,omitempty"`
+	TotalFee         int    `xml:"total_fee,omitempty" json:"total_fee,omitempty"`
+	CashFee          int    `xml:"cash_fee,omitempty" json:"cash_fee,omitempty"`
 
-	PromotionDetail string `xml:"promotion_detail,omitempty" json:"promotion_detail,omitempty"`
-	UnionpayDiscount string `xml:"unionpay_discount,omitempty" json:"unionpay_discount,omitempty"`
-	InvoiceAmount  float32 `xml:"invoice_amount,omitempty" json:"invoice_amount,omitempty"`
-	BuyerLogonId string `xml:"buyer_logon_id,omitempty" json:"buyer_logon_id,omitempty"`
-	BuyerPayAmount string `xml:"buyer_pay_amount,omitempty" json:"buyer_pay_amount,omitempty"`
-	
-	BuyerUserId string `xml:"buyer_user_id,omitempty" json:"buyer_user_id,omitempty"`
-	PointAmount float32 `xml:"point_amount,omitempty" json:"point_amount,omitempty"`
-	ReceiptAmount float32 `xml:"receipt_amount,omitempty" json:"receipt_amount,omitempty"`
-	FundBillList string `xml:"fund_bill_list,omitempty" json:"fund_bill_list,omitempty"`
-	DiscountGoodsDetail string `xml:"discount_goods_detail,omitempty" json:"discount_goods_detail,omitempty"`
+	PromotionDetail  string  `xml:"promotion_detail,omitempty" json:"promotion_detail,omitempty"`
+	UnionpayDiscount string  `xml:"unionpay_discount,omitempty" json:"unionpay_discount,omitempty"`
+	InvoiceAmount    float32 `xml:"invoice_amount,omitempty" json:"invoice_amount,omitempty"`
+	BuyerLogonId     string  `xml:"buyer_logon_id,omitempty" json:"buyer_logon_id,omitempty"`
+	BuyerPayAmount   float32 `xml:"buyer_pay_amount,omitempty" json:"buyer_pay_amount,omitempty"`
 
-	CouponFee      int `xml:"coupon_fee,omitempty" json:"coupon_fee,omitempty"`
-	Mdiscount      int `xml:"mdiscount,omitempty" json:"mdiscount,omitempty"`
-	FeeType      string `xml:"fee_type,omitempty" json:"fee_type,omitempty"`
-	Attach      string `xml:"attach,omitempty" json:"attach,omitempty"`
-	BankType      string `xml:"bank_type,omitempty" json:"bank_type,omitempty"`
+	BuyerUserId         string  `xml:"buyer_user_id,omitempty" json:"buyer_user_id,omitempty"`
+	PointAmount         float32 `xml:"point_amount,omitempty" json:"point_amount,omitempty"`
+	ReceiptAmount       float32 `xml:"receipt_amount,omitempty" json:"receipt_amount,omitempty"`
+	FundBillList        string  `xml:"fund_bill_list,omitempty" json:"fund_bill_list,omitempty"`
+	DiscountGoodsDetail string  `xml:"discount_goods_detail,omitempty" json:"discount_goods_detail,omitempty"`
 
-	BankBillno      string `xml:"bank_billno,omitempty" json:"bank_billno,omitempty"`
-	TimeEnd      string `xml:"time_end,omitempty" json:"time_end,omitempty"`
-	SettleKey      string `xml:"settle_key,omitempty" json:"settle_key,omitempty"`
+	CouponFee int    `xml:"coupon_fee,omitempty" json:"coupon_fee,omitempty"`
+	Mdiscount int    `xml:"mdiscount,omitempty" json:"mdiscount,omitempty"`
+	FeeType   string `xml:"fee_type,omitempty" json:"fee_type,omitempty"`
+	Attach    string `xml:"attach,omitempty" json:"attach,omitempty"`
+	BankType  string `xml:"bank_type,omitempty" json:"bank_type,omitempty"`
 
-
+	BankBillno string `xml:"bank_billno,omitempty" json:"bank_billno,omitempty"`
+	TimeEnd    string `xml:"time_end,omitempty" json:"time_end,omitempty"`
+	SettleKey  string `xml:"settle_key,omitempty" json:"settle_key,omitempty"`
 }
 
 // custom
