@@ -8,27 +8,44 @@ import (
 	"testing"
 
 	"github.com/pangpanglabs/goutils/test"
+	"github.com/relax-space/go-kitt/random"
 )
-
-// go test -run xxx
 
 var mchId = os.Getenv("UP_MCHID")
 var upKey = os.Getenv("UP_KEY")
 
+// go test -run TestUpPay
 func TestUpPay(t *testing.T) {
+	outTradeNo := random.NewUuid(up.PRE_OUTTRADENO)
 	reqDto := up.ReqPayDto{
-		MchId:    mchId,
-		AuthCode: "134981593479354294",
-		Body:     "xinmiao test up",
-		TotalFee: 1,
+		MchId:      mchId,
+		AuthCode:   "134540965666507931",
+		Body:       "xinmiao test up",
+		TotalFee:   1,
+		OutTradeNo: outTradeNo,
 	}
 	customDto := up.ReqCustomerDto{
 		Key: upKey,
 	}
-	status, resp, err := up.Pay(reqDto, customDto)
+
+	_, resp, err := up.Pay(reqDto, customDto)
+	test.Ok(t, err)
+	if up.IsQuery(resp.ResultCode, resp.ErrCode) == false {
+		fmt.Println(resp.ErrMsg)
+		return
+	}
+
+	reqQueryDto := up.ReqQueryDto{
+		MchId:      mchId,
+		OutTradeNo: outTradeNo,
+	}
+
+	status, respQuery, err := up.LoopQuery(reqQueryDto, customDto, 60, 0)
 	test.Ok(t, err)
 	test.Equals(t, http.StatusOK, status)
-	fmt.Printf("%+v", resp)
+	test.Equals(t, outTradeNo, respQuery.OutTradeNo)
+	test.Equals(t, 1, respQuery.TotalFee)
+	test.Equals(t, 1, respQuery.CashFee)
 }
 
 //go test -run TestUpQuery
