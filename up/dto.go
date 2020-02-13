@@ -206,6 +206,73 @@ type RespQueryDto struct {
 	SettleKey  string `xml:"settle_key,omitempty" json:"settle_key,omitempty"`
 }
 
+// 3. refund
+
+type ReqRefundDto struct {
+	XMLName xml.Name `xml:"xml" json:"xml,omitempty"`
+
+	//========== common
+
+	Service  string `xml:"service,omitempty" json:"service,omitempty"`
+	Version  string `xml:"version,omitempty" json:"version,omitempty"`
+	Charset  string `xml:"charset,omitempty" json:"charset,omitempty"`
+	SignType string `xml:"sign_type,omitempty" json:"sign_type,omitempty"`
+	MchId    string `xml:"mch_id,omitempty" json:"mch_id,omitempty"`
+
+	NonceStr    string `xml:"nonce_str,omitempty" json:"nonce_str,omitempty"`
+	Sign        string `xml:"sign,omitempty" json:"sign,omitempty"`
+	SignAgentno string `xml:"sign_agentno,omitempty" json:"sign_agentno,omitempty"`
+	Groupno     string `xml:"groupno,omitempty" json:"groupno,omitempty"`
+
+	//========== pay req
+
+	OutTradeNo    string `xml:"out_trade_no,omitempty" json:"out_trade_no,omitempty"`
+	TransactionId string `xml:"transaction_id,omitempty" json:"transaction_id,omitempty"`
+	OutRefundNo   string `xml:"out_refund_no,omitempty" json:"out_refund_no,omitempty"`
+	TotalFee      int    `xml:"total_fee,omitempty" json:"total_fee,omitempty"`
+	RefundFee     int    `xml:"refund_fee,omitempty" json:"refund_fee,omitempty"`
+
+	OpUserId      string `xml:"op_user_id,omitempty" json:"op_user_id,omitempty"`
+	RefundChannel string `xml:"refund_channel,omitempty" json:"refund_channel,omitempty"`
+}
+
+type RespRefundDto struct {
+	XMLName xml.Name `xml:"xml" json:"xml,omitempty"`
+
+	//========== common
+
+	Version     string `xml:"version,omitempty" json:"version,omitempty"`
+	Charset     string `xml:"charset,omitempty" json:"charset,omitempty"`
+	SignType    string `xml:"sign_type,omitempty" json:"sign_type,omitempty"`
+	SignAgentno string `xml:"sign_agentno,omitempty" json:"sign_agentno,omitempty"`
+	Groupno     string `xml:"groupno,omitempty" json:"groupno,omitempty"`
+
+	Status     string `xml:"status,omitempty" json:"status,omitempty"`
+	Message    string `xml:"message,omitempty" json:"message,omitempty"`
+	Code       string `xml:"code,omitempty" json:"code,omitempty"`
+	ResultCode string `xml:"result_code,omitempty" json:"result_code,omitempty"`
+
+	MchId      string `xml:"mch_id,omitempty" json:"mch_id,omitempty"`
+	DeviceInfo string `xml:"device_info,omitempty" json:"device_info,omitempty"`
+	NonceStr   string `xml:"nonce_str,omitempty" json:"nonce_str,omitempty"`
+	ErrCode    string `xml:"err_code,omitempty" json:"err_code,omitempty"`
+	ErrMsg     string `xml:"err_msg,omitempty" json:"err_msg,omitempty"`
+
+	Sign string `xml:"sign,omitempty" json:"sign,omitempty"`
+
+	//========== pay resp
+
+	TransactionId string `xml:"transaction_id,omitempty" json:"transaction_id,omitempty"`
+	OutTradeNo    string `xml:"out_trade_no,omitempty" json:"out_trade_no,omitempty"`
+	OutRefundNo   string `xml:"out_refund_no,omitempty" json:"out_refund_no,omitempty"`
+	RefundId      string `xml:"refund_id,omitempty" json:"refund_id,omitempty"`
+	RefundChannel string `xml:"refund_channel,omitempty" json:"refund_channel,omitempty"`
+
+	RefundFee       int    `xml:"refund_fee,omitempty" json:"refund_fee,omitempty"`
+	CouponRefundFee int    `xml:"coupon_refund_fee,omitempty" json:"coupon_refund_fee,omitempty"`
+	TradeType       string `xml:"trade_type,omitempty" json:"trade_type,omitempty"`
+}
+
 // custom
 
 type ReqCustomerDto struct {

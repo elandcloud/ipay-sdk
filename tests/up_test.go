@@ -45,7 +45,6 @@ func TestUpPay(t *testing.T) {
 	test.Equals(t, http.StatusOK, status)
 	test.Equals(t, outTradeNo, respQuery.OutTradeNo)
 	test.Equals(t, 1, respQuery.TotalFee)
-	test.Equals(t, 1, respQuery.CashFee)
 }
 
 //go test -run TestUpQuery
@@ -82,4 +81,28 @@ func TestUpQuery(t *testing.T) {
 	test.Equals(t, expDto.TotalFee, resp.TotalFee)
 	test.Equals(t, expDto.CashFee, resp.CashFee)
 	test.Equals(t, expDto.TimeEnd, resp.TimeEnd)
+}
+
+//{XMLName:{Space: Local:xml} Version:2.0 Charset:UTF-8 SignType:MD5 SignAgentno: Groupno: Status:0 Message: Code: ResultCode:0 MchId:QRA290454410UV5 DeviceInfo: NonceStr:3536582798494089883 ErrCode: ErrMsg: Sign:FAE876E8C337CA1F199325C781B00456 TransactionId:9551600000202002114255187210 OutTradeNo:202002111767868850625397773 OutRefundNo:212002132220972889823986055 RefundId:9551600000202002133245848244 RefundChannel:ORIGINAL RefundFee:1 CouponRefundFee:0 TradeType:pay.weixin.micropay}
+
+//go test -run TestUpRefund
+func TestUpRefund(t *testing.T) {
+	expDto := up.RespRefundDto{
+		Status:            "0",
+	}
+	outRefundNo := random.NewUuid(up.PRE_OUTREFUNDNO)
+	reqDto := up.ReqRefundDto{
+		MchId:      mchId,
+		OutTradeNo: "202002111767868850625397773",
+		TotalFee:   1,
+		RefundFee:1,
+		OutRefundNo:outRefundNo,
+	}
+	customDto := up.ReqCustomerDto{
+		Key: upKey,
+	}
+	status, resp, err := up.Refund(reqDto, customDto)
+	test.Ok(t, err)
+	test.Equals(t, http.StatusOK, status)
+	test.Equals(t, expDto.Status, resp.Status)
 }
