@@ -331,16 +331,16 @@ type RespRefundQueryDto struct {
 	TradeType     string `xml:"trade_type,omitempty" json:"trade_type,omitempty"`
 
 	//Because Alipay can only query a single refund, in order to unified format, all refunds only return one data
-	OutRefundNo0     string `xml:"out_refund_no_0,omitempty" json:"out_refund_no_0,omitempty"`
-	RefundId0        string `xml:"refund_id_0,omitempty" json:"refund_id_0,omitempty"`
-	RefundChannel0   string `xml:"refund_channel_0,omitempty" json:"refund_channel_0,omitempty"`
-	RefundFee0       int    `xml:"refund_fee_0,omitempty" json:"refund_fee_0,omitempty"`
-	CouponRefundFee0 int    `xml:"coupon_refund_fee_0,omitempty" json:"coupon_refund_fee_0,omitempty"`
+	OutRefundNo     string `xml:"out_refund_no_0,omitempty" json:"out_refund_no_0,omitempty"`
+	RefundId        string `xml:"refund_id_0,omitempty" json:"refund_id_0,omitempty"`
+	RefundChannel   string `xml:"refund_channel_0,omitempty" json:"refund_channel_0,omitempty"`
+	RefundFee       int    `xml:"refund_fee_0,omitempty" json:"refund_fee_0,omitempty"`
+	CouponRefundFee int    `xml:"coupon_refund_fee_0,omitempty" json:"coupon_refund_fee_0,omitempty"`
 
-	Mdiscount0    int    `xml:"mdiscount_0,omitempty" json:"mdiscount_0,omitempty"`
-	RefundTime0   string `xml:"refund_time_0,omitempty" json:"refund_time_0,omitempty"`
-	RefundStatus0 string `xml:"refund_status_0,omitempty" json:"refund_status_0,omitempty"`
-	SettleKey0    string `xml:"settle_key_0,omitempty" json:"settle_key_0,omitempty"`
+	Mdiscount    int    `xml:"mdiscount_0,omitempty" json:"mdiscount_0,omitempty"`
+	RefundTime   string `xml:"refund_time_0,omitempty" json:"refund_time_0,omitempty"`
+	RefundStatus string `xml:"refund_status_0,omitempty" json:"refund_status_0,omitempty"`
+	SettleKey    string `xml:"settle_key_0,omitempty" json:"settle_key_0,omitempty"`
 }
 
 // custom
