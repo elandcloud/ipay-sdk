@@ -171,6 +171,43 @@ func Refund(reqDto ReqRefundDto, custDto ReqCustomerDto) (int, RespRefundDto, er
 	return statusCode, respDto, nil
 }
 
+func RefundQuery(reqDto ReqRefundQueryDto, custDto ReqCustomerDto) (int, RespRefundQueryDto, error) {
+	var respDto RespRefundQueryDto
+
+	reqDto.Service = "unified.trade.refundquery"
+	reqDto.Version = "2.0"
+	reqDto.Charset = "UTF-8"
+	reqDto.SignType = "MD5"
+	reqDto.NonceStr = random.Uuid("")
+
+
+	reqStruct := structs.New(reqDto)
+	reqStruct.TagName = "json"
+	reqMap := reqStruct.Map()
+
+	signStr := base.JoinMapObject(reqMap)
+
+	var err error
+	reqDto.Sign = sign.MakeMd5Sign(signStr, custDto.Key)
+	b, err := xml.MarshalIndent(reqDto, "", " ")
+	if err != nil {
+		return http.StatusBadRequest, respDto, err
+	}
+	xmlData := string(b)
+	statusCode, err := httpreq.New(http.MethodPost, OPENAPIURL,
+		xmlData, func(httpReq *httpreq.HttpReq) error {
+			httpReq.ReqDataType = httpreq.XmlType
+			httpReq.RespDataType = httpreq.XmlType
+			return nil
+		}).
+		Call(&respDto)
+	if err != nil {
+		return http.StatusInternalServerError, respDto, err
+	}
+
+	return statusCode, respDto, nil
+}
+
 func IsQuery(resultCode, errCode string) bool {
 
 	if resultCode == "0" {

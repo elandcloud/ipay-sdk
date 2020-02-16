@@ -273,6 +273,76 @@ type RespRefundDto struct {
 	TradeType       string `xml:"trade_type,omitempty" json:"trade_type,omitempty"`
 }
 
+// 4. refund query
+
+type ReqRefundQueryDto struct {
+	XMLName xml.Name `xml:"xml" json:"xml,omitempty"`
+
+	//========== common
+
+	Service  string `xml:"service,omitempty" json:"service,omitempty"`
+	Version  string `xml:"version,omitempty" json:"version,omitempty"`
+	Charset  string `xml:"charset,omitempty" json:"charset,omitempty"`
+	SignType string `xml:"sign_type,omitempty" json:"sign_type,omitempty"`
+	MchId    string `xml:"mch_id,omitempty" json:"mch_id,omitempty"`
+
+	NonceStr    string `xml:"nonce_str,omitempty" json:"nonce_str,omitempty"`
+	Sign        string `xml:"sign,omitempty" json:"sign,omitempty"`
+	SignAgentno string `xml:"sign_agentno,omitempty" json:"sign_agentno,omitempty"`
+	Groupno     string `xml:"groupno,omitempty" json:"groupno,omitempty"`
+
+	//========== pay req
+
+	OutTradeNo    string `xml:"out_trade_no,omitempty" json:"out_trade_no,omitempty"`
+	TransactionId string `xml:"transaction_id,omitempty" json:"transaction_id,omitempty"`
+	OutRefundNo   string `xml:"out_refund_no,omitempty" json:"out_refund_no,omitempty"`
+	RefundId      string `xml:"refund_id,omitempty" json:"refund_id,omitempty"`
+}
+
+type RespRefundQueryDto struct {
+	XMLName xml.Name `xml:"xml" json:"xml,omitempty"`
+
+	//========== common
+
+	Version     string `xml:"version,omitempty" json:"version,omitempty"`
+	Charset     string `xml:"charset,omitempty" json:"charset,omitempty"`
+	SignType    string `xml:"sign_type,omitempty" json:"sign_type,omitempty"`
+	SignAgentno string `xml:"sign_agentno,omitempty" json:"sign_agentno,omitempty"`
+	Groupno     string `xml:"groupno,omitempty" json:"groupno,omitempty"`
+
+	Status     string `xml:"status,omitempty" json:"status,omitempty"`
+	Message    string `xml:"message,omitempty" json:"message,omitempty"`
+	Code       string `xml:"code,omitempty" json:"code,omitempty"`
+	ResultCode string `xml:"result_code,omitempty" json:"result_code,omitempty"`
+
+	MchId      string `xml:"mch_id,omitempty" json:"mch_id,omitempty"`
+	DeviceInfo string `xml:"device_info,omitempty" json:"device_info,omitempty"`
+	NonceStr   string `xml:"nonce_str,omitempty" json:"nonce_str,omitempty"`
+	ErrCode    string `xml:"err_code,omitempty" json:"err_code,omitempty"`
+	ErrMsg     string `xml:"err_msg,omitempty" json:"err_msg,omitempty"`
+
+	Sign string `xml:"sign,omitempty" json:"sign,omitempty"`
+
+	//========== pay resp
+
+	TransactionId string `xml:"transaction_id,omitempty" json:"transaction_id,omitempty"`
+	OutTradeNo    string `xml:"out_trade_no,omitempty" json:"out_trade_no,omitempty"`
+	RefundCount   int    `xml:"refund_count,omitempty" json:"refund_count,omitempty"`
+	TradeType     string `xml:"trade_type,omitempty" json:"trade_type,omitempty"`
+
+	//Because Alipay can only query a single refund, in order to unified format, all refunds only return one data
+	OutRefundNo0     string `xml:"out_refund_no_0,omitempty" json:"out_refund_no_0,omitempty"`
+	RefundId0        string `xml:"refund_id_0,omitempty" json:"refund_id_0,omitempty"`
+	RefundChannel0   string `xml:"refund_channel_0,omitempty" json:"refund_channel_0,omitempty"`
+	RefundFee0       int    `xml:"refund_fee_0,omitempty" json:"refund_fee_0,omitempty"`
+	CouponRefundFee0 int    `xml:"coupon_refund_fee_0,omitempty" json:"coupon_refund_fee_0,omitempty"`
+
+	Mdiscount0    int    `xml:"mdiscount_0,omitempty" json:"mdiscount_0,omitempty"`
+	RefundTime0   string `xml:"refund_time_0,omitempty" json:"refund_time_0,omitempty"`
+	RefundStatus0 string `xml:"refund_status_0,omitempty" json:"refund_status_0,omitempty"`
+	SettleKey0    string `xml:"settle_key_0,omitempty" json:"settle_key_0,omitempty"`
+}
+
 // custom
 
 type ReqCustomerDto struct {

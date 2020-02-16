@@ -106,3 +106,41 @@ func TestUpRefund(t *testing.T) {
 	test.Equals(t, http.StatusOK, status)
 	test.Equals(t, expDto.Status, resp.Status)
 }
+
+
+//go test -run TestUpRefundQuery
+func TestUpRefundQuery(t *testing.T) {
+	expDto := up.RespRefundQueryDto{
+		MchId:            "QRA290454410UV5",
+		TransactionId:    "9551600000202002163247444596",
+		OutTradeNo: "202002168827092713337078464",
+		TradeType:"pay.alipay.micropay",
+		OutRefundNo0:"212002164288363517991342006",
+
+		RefundId0:"9551600000202002163247447424",
+		RefundFee0:1,
+		RefundTime0:"20200216173243",
+		RefundStatus0:"SUCCESS",
+	}
+	reqDto := up.ReqRefundQueryDto{
+		MchId:      mchId,
+		OutTradeNo: "202002168827092713337078464",
+		OutRefundNo:"212002164288363517991342006",
+	}
+	customDto := up.ReqCustomerDto{
+		Key: upKey,
+	}
+	status, resp, err := up.RefundQuery(reqDto, customDto)
+	test.Ok(t, err)
+	test.Equals(t, http.StatusOK, status)
+	test.Equals(t, expDto.MchId, resp.MchId)
+	test.Equals(t, expDto.TransactionId, resp.TransactionId)
+	test.Equals(t, expDto.OutTradeNo, resp.OutTradeNo)
+	test.Equals(t, expDto.TradeType, resp.TradeType)
+	test.Equals(t, expDto.OutRefundNo0, resp.OutRefundNo0)
+
+	test.Equals(t, expDto.RefundId0, resp.RefundId0)
+	test.Equals(t, expDto.RefundFee0, resp.RefundFee0)
+	test.Equals(t, expDto.RefundTime0, resp.RefundTime0)
+	test.Equals(t, expDto.RefundStatus0, resp.RefundStatus0)
+}
