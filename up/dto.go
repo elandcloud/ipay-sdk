@@ -42,6 +42,10 @@ type ReqPayDto struct {
 	OpShopId   string `xml:"op_shop_id,omitempty" json:"op_shop_id,omitempty"`
 	OpDeviceId string `xml:"op_device_id,omitempty" json:"op_device_id,omitempty"`
 	GoodsTag   string `xml:"goods_tag,omitempty" json:"goods_tag,omitempty"`
+
+	// for good detail
+	CostPrice int    `xml:"cost_price,omitempty" json:"cost_price,omitempty"`
+	ReceiptId string `xml:"receipt_id,omitempty" json:"receipt_id,omitempty"`
 }
 
 //response
@@ -348,4 +352,46 @@ type RespRefundQueryDto struct {
 type ReqCustomerDto struct {
 	Url string `json:"url,omitempty"`
 	Key string `json:"key,omitempty"`
+}
+
+// sub dto
+type GoodsDetailReqDto struct {
+	GoodsId    string  `xml:"goods_id,omitempty" json:"goods_id,omitempty"`
+	PayGoodsId string  `xml:"pay_goods_id,omitempty" json:"pay_goods_id,omitempty"`
+	GoodsName  string  `xml:"goods_name,omitempty" json:"goods_name,omitempty"`
+	Quantity   int     `xml:"quantity,omitempty" json:"quantity,omitempty"`
+	Price      float32 `xml:"price,omitempty" json:"price,omitempty"`
+
+	GoodsCategory string `xml:"goods_category,omitempty" json:"goods_category,omitempty"`
+	Body          string `xml:"body,omitempty" json:"body,omitempty"`
+	ShowUrl       string `xml:"show_url,omitempty" json:"show_url,omitempty"`
+	Version       string `xml:"version,omitempty" json:"version,omitempty"`
+}
+
+type DiscountGoodsDetailRespDto struct {
+	GoodsId        string `xml:"goods_id,omitempty" json:"goods_id,omitempty"`
+	GoodsName      string `xml:"goods_name,omitempty" json:"goods_name,omitempty"`
+	DiscountAmount string `xml:"discount_amount,omitempty" json:"discount_amount,omitempty"`
+	VoucherId      string `xml:"voucher_id,omitempty" json:"voucher_id,omitempty"`
+}
+
+type PromotionDetailRespDto struct {
+	PromotionId string `xml:"promotion_id,omitempty" json:"promotion_id,omitempty"`
+	Name        string `xml:"name,omitempty" json:"name,omitempty"`
+	Scope       string `xml:"scope,omitempty" json:"scope,omitempty"`
+	Type        string `xml:"type,omitempty" json:"type,omitempty"`
+	Amount      int    `xml:"amount,omitempty" json:"amount,omitempty"`
+
+	ActivityId         string               `xml:"activity_id,omitempty" json:"activity_id,omitempty"`
+	WxpayContribute    int                  `xml:"wxpay_contribute,omitempty" json:"wxpay_contribute,omitempty"`
+	MerchantContribute int                  `xml:"merchant_contribute,omitempty" json:"merchant_contribute,omitempty"`
+	OtherContribute    int                  `xml:"other_contribute,omitempty" json:"other_contribute,omitempty"`
+	GoodsDetail        []GoodsDetailRespDto `xml:"goods_detail,omitempty" json:"goods_detail,omitempty"`
+}
+
+type GoodsDetailRespDto struct {
+	GoodsId         string `xml:"goods_id,omitempty" json:"goods_id,omitempty"`
+	Quantity        int    `xml:"quantity,omitempty" json:"quantity,omitempty"`
+	Price           int    `xml:"price,omitempty" json:"price,omitempty"`
+	discount_amount int    `xml:"discount_amount,omitempty" json:"discount_amount,omitempty"`
 }

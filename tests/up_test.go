@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"os"
 	"testing"
+	"encoding/json"
 
 	"github.com/pangpanglabs/goutils/test"
 	"github.com/relax-space/go-kitt/random"
@@ -50,13 +51,23 @@ var upKey = os.Getenv("UP_KEY")
 **/
 // go test -run TestUpPay
 func TestUpPay(t *testing.T) {
+	goodsDetail :=up.GoodsDetailReqDto{
+		GoodsId:"8054489",
+		GoodsName:"yp8054489",
+		Quantity:1,
+		Price:100,
+	}
+	b,_:=json.Marshal(goodsDetail)
+	goodsDetailStr:=string(b)
+	
 	outTradeNo := random.NewUuid(up.PRE_OUTTRADENO)
 	reqDto := up.ReqPayDto{
 		MchId:      mchId,
-		AuthCode:   "281691313877325731",
+		AuthCode:   "28787383905994393",
 		Body:       "xinmiao test up",
-		TotalFee:   100,
+		TotalFee:   1,
 		OutTradeNo: outTradeNo,
+		GoodsDetail:goodsDetailStr,
 	}
 	customDto := up.ReqCustomerDto{
 		Key: upKey,
@@ -79,14 +90,21 @@ func TestUpPay(t *testing.T) {
 	test.Equals(t, http.StatusOK, status)
 	// fmt.Printf("%+v",respQuery)
 	test.Equals(t, outTradeNo, respQuery.OutTradeNo)
-	test.Equals(t, 100, respQuery.TotalFee)
+	test.Equals(t, 1, respQuery.TotalFee)
+	if len(respQuery.PromotionDetail) !=0{
+		_,err=up.ParseDiscountGoodsDetail(respQuery.PromotionDetail)
+		test.Ok(t,err)
+	}
+	if len(respQuery.DiscountGoodsDetail) !=0{
+		_,err=up.ParsePromotionDetail(respQuery.DiscountGoodsDetail)
+		test.Ok(t,err)
+	}
 }
 
 //go test -run TestUpQuery
 func TestUpQuery(t *testing.T) {
 	expDto := up.RespQueryDto{
 		MchId:            "QRA290454410UV5",
-		TradeState:       "SUCCESS",
 		Appid:            "wxc6634b0d53a240d5",
 		TransactionId:    "9551600000202002114255187210",
 		OutTransactionId: "4200000475202002117266214187",
@@ -107,7 +125,6 @@ func TestUpQuery(t *testing.T) {
 	test.Ok(t, err)
 	test.Equals(t, http.StatusOK, status)
 	test.Equals(t, expDto.MchId, resp.MchId)
-	test.Equals(t, expDto.TradeState, resp.TradeState)
 	test.Equals(t, expDto.Appid, resp.Appid)
 	test.Equals(t, expDto.TransactionId, resp.TransactionId)
 	test.Equals(t, expDto.OutTransactionId, resp.OutTransactionId)
@@ -142,12 +159,8 @@ func TestUpRefund(t *testing.T) {
 	customDto := up.ReqCustomerDto{
 		Key: upKey,
 	}
-	_, resp, err := up.Refund(reqDto, customDto)
+	_, _, err := up.Refund(reqDto, customDto)
 	test.Ok(t, err)
-	if up.IsRefundQuery(resp.ResultCode, resp.ErrCode) == false {
-		fmt.Println(resp.ErrMsg)
-		return
-	}
 
 	reqRefundQueryDto := up.ReqRefundQueryDto{
 		MchId:      mchId,

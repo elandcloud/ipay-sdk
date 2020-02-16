@@ -17,14 +17,6 @@ var PayStatusList = []string{
 	"ACQ.SYSTEM_ERROR",
 }
 
-var RefundStatusList = []string{
-	"ACQ.SYSTEM_ERROR",
-	"aop.ACQ.SYSTEM_ERROR",
-	"SYSTEMERROR",
-	"aop.unknow-error",
-	"System error",
-}
-
 const (
 	SYSTEMERROR   = "SYSTEMERROR"
 	ORDERNOTEXIST = "ORDERNOTEXIST"
