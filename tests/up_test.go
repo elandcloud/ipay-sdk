@@ -14,14 +14,48 @@ import (
 var mchId = os.Getenv("UP_MCHID")
 var upKey = os.Getenv("UP_KEY")
 
+/**
+{
+    "xml": {
+        "Space": "", 
+        "Local": "xml"
+    }, 
+    "version": "2.0", 
+    "charset": "UTF-8", 
+    "sign_type": "MD5", 
+    "status": "0", 
+    "result_code": "0", 
+    "mch_id": "QRA290454410UV5", 
+    "nonce_str": "9928960196914791592", 
+    "sign": "2AC6C72CEA46F54A2BDC5C369AD9D464", 
+    "trade_state": "SUCCESS", 
+    "trade_type": "pay.alipay.micropay", 
+    "appid": "1266000004184930", 
+    "openid": "2088702305824122", 
+    "transaction_id": "9551600000202002163247543073", 
+    "out_transaction_id": "2020021622001424121420648297", 
+    "out_trade_no": "2020021611965285238855190655", 
+    "total_fee": 100, 
+    "invoice_amount": 1, 
+    "buyer_logon_id": "xia***@163.com", 
+    "buyer_pay_amount": 1, 
+    "buyer_user_id": "2088702305824122", 
+    "receipt_amount": 1, 
+    "fund_bill_list": "[{\"amount\":\"1.00\",\"fundChannel\":\"ALIPAYACCOUNT\"}]", 
+    "fee_type": "CNY", 
+    "bank_type": "ALIPAYACCOUNT", 
+    "time_end": "20200216203722"
+}
+
+**/
 // go test -run TestUpPay
 func TestUpPay(t *testing.T) {
 	outTradeNo := random.NewUuid(up.PRE_OUTTRADENO)
 	reqDto := up.ReqPayDto{
 		MchId:      mchId,
-		AuthCode:   "134540965666507931",
+		AuthCode:   "281691313877325731",
 		Body:       "xinmiao test up",
-		TotalFee:   1,
+		TotalFee:   100,
 		OutTradeNo: outTradeNo,
 	}
 	customDto := up.ReqCustomerDto{
@@ -43,8 +77,9 @@ func TestUpPay(t *testing.T) {
 	status, respQuery, err := up.LoopQuery(reqQueryDto, customDto, 60, 0)
 	test.Ok(t, err)
 	test.Equals(t, http.StatusOK, status)
+	// fmt.Printf("%+v",respQuery)
 	test.Equals(t, outTradeNo, respQuery.OutTradeNo)
-	test.Equals(t, 1, respQuery.TotalFee)
+	test.Equals(t, 100, respQuery.TotalFee)
 }
 
 //go test -run TestUpQuery
@@ -87,24 +122,48 @@ func TestUpQuery(t *testing.T) {
 
 //go test -run TestUpRefund
 func TestUpRefund(t *testing.T) {
-	expDto := up.RespRefundDto{
-		Status:            "0",
-	}
+	outTradeNo :="2020021611965285238855190655"
 	outRefundNo := random.NewUuid(up.PRE_OUTREFUNDNO)
+	refundFee:=1
+	totalFee:=100
+	expDto := up.RespRefundQueryDto{
+		Status:            "0",
+		OutTradeNo: outTradeNo,
+		OutRefundNo: outRefundNo,
+		RefundFee:refundFee,
+	}
 	reqDto := up.ReqRefundDto{
 		MchId:      mchId,
-		OutTradeNo: "202002111767868850625397773",
-		TotalFee:   1,
-		RefundFee:1,
+		OutTradeNo: outTradeNo,
+		TotalFee:   totalFee,
+		RefundFee:refundFee,
 		OutRefundNo:outRefundNo,
 	}
 	customDto := up.ReqCustomerDto{
 		Key: upKey,
 	}
-	status, resp, err := up.Refund(reqDto, customDto)
+	_, resp, err := up.Refund(reqDto, customDto)
+	test.Ok(t, err)
+	if up.IsRefundQuery(resp.ResultCode, resp.ErrCode) == false {
+		fmt.Println(resp.ErrMsg)
+		return
+	}
+
+	reqRefundQueryDto := up.ReqRefundQueryDto{
+		MchId:      mchId,
+		OutTradeNo: outTradeNo,
+		OutRefundNo: outRefundNo,
+	}
+
+	status, respRefundQuery, err := up.LoopRefundQuery(reqRefundQueryDto, customDto, 60, 0)
 	test.Ok(t, err)
 	test.Equals(t, http.StatusOK, status)
-	test.Equals(t, expDto.Status, resp.Status)
+	// fmt.Printf("%+v",respRefundQuery)
+	test.Equals(t, expDto.Status, respRefundQuery.Status)
+	test.Equals(t, expDto.OutTradeNo, respRefundQuery.OutTradeNo)
+	test.Equals(t, expDto.OutRefundNo, respRefundQuery.OutRefundNo)
+	test.Equals(t, expDto.RefundFee, respRefundQuery.RefundFee)
+
 }
 
 
@@ -115,12 +174,12 @@ func TestUpRefundQuery(t *testing.T) {
 		TransactionId:    "9551600000202002163247444596",
 		OutTradeNo: "202002168827092713337078464",
 		TradeType:"pay.alipay.micropay",
-		OutRefundNo0:"212002164288363517991342006",
+		OutRefundNo:"212002164288363517991342006",
 
-		RefundId0:"9551600000202002163247447424",
-		RefundFee0:1,
-		RefundTime0:"20200216173243",
-		RefundStatus0:"SUCCESS",
+		RefundId:"9551600000202002163247447424",
+		RefundFee:1,
+		RefundTime:"20200216173243",
+		RefundStatus:"SUCCESS",
 	}
 	reqDto := up.ReqRefundQueryDto{
 		MchId:      mchId,
@@ -137,10 +196,11 @@ func TestUpRefundQuery(t *testing.T) {
 	test.Equals(t, expDto.TransactionId, resp.TransactionId)
 	test.Equals(t, expDto.OutTradeNo, resp.OutTradeNo)
 	test.Equals(t, expDto.TradeType, resp.TradeType)
-	test.Equals(t, expDto.OutRefundNo0, resp.OutRefundNo0)
+	test.Equals(t, expDto.OutRefundNo, resp.OutRefundNo)
 
-	test.Equals(t, expDto.RefundId0, resp.RefundId0)
-	test.Equals(t, expDto.RefundFee0, resp.RefundFee0)
-	test.Equals(t, expDto.RefundTime0, resp.RefundTime0)
-	test.Equals(t, expDto.RefundStatus0, resp.RefundStatus0)
+	test.Equals(t, expDto.RefundId, resp.RefundId)
+	test.Equals(t, expDto.RefundFee, resp.RefundFee)
+	test.Equals(t, expDto.RefundTime, resp.RefundTime)
+	test.Equals(t, expDto.RefundStatus, resp.RefundStatus)
 }
+

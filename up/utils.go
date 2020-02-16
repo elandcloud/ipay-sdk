@@ -17,6 +17,14 @@ var PayStatusList = []string{
 	"ACQ.SYSTEM_ERROR",
 }
 
+var RefundStatusList = []string{
+	"ACQ.SYSTEM_ERROR",
+	"aop.ACQ.SYSTEM_ERROR",
+	"SYSTEMERROR",
+	"aop.unknow-error",
+	"System error",
+}
+
 const (
 	SYSTEMERROR   = "SYSTEMERROR"
 	ORDERNOTEXIST = "ORDERNOTEXIST"
@@ -31,8 +39,10 @@ const (
 )
 
 const (
-	PAY_OVERTIME           = 60 //default 60s
-	PAY_LOOPQUERY_INTERVAL = 2
+	PAY_OVERTIME              = 30 //default 30s
+	PAY_LOOPQUERY_INTERVAL    = 2
+	REFUND_OVERTIME           = 30 //default 30s
+	REFUND_LOOPQUERY_INTERVAL = 2
 )
 
 const (
