@@ -3,7 +3,9 @@ package up
 import (
 	"encoding/json"
 	"encoding/xml"
+	"errors"
 	"fmt"
+	"io/ioutil"
 	"net/http"
 	"time"
 
@@ -44,18 +46,32 @@ func Pay(reqDto ReqPayDto, custDto ReqCustomerDto) (int, RespPayDto, error) {
 		return http.StatusBadRequest, respDto, err
 	}
 	xmlData := string(b)
-	statusCode, err := httpreq.New(http.MethodPost, OPENAPIURL,
+	resp, err := httpreq.New(http.MethodPost, OPENAPIURL,
 		xmlData, func(httpReq *httpreq.HttpReq) error {
 			httpReq.ReqDataType = httpreq.XmlType
-			httpReq.RespDataType = httpreq.XmlType
 			return nil
 		}).
-		Call(&respDto)
+		RawCall()
+	if resp != nil && resp.Body != nil {
+		defer resp.Body.Close()
+	}
 	if err != nil {
 		return http.StatusInternalServerError, respDto, err
 	}
 
-	return statusCode, respDto, nil
+	b, err = ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return http.StatusOK, respDto, err
+	}
+	if CheckSign(b, custDto.Key) == false {
+		return http.StatusOK, respDto, errors.New("response sign error")
+	}
+
+	if err := xml.Unmarshal(b, &respDto); err != nil {
+		return http.StatusOK, respDto, errors.New("response parse error")
+	}
+
+	return resp.StatusCode, respDto, nil
 }
 
 func Query(reqDto ReqQueryDto, custDto ReqCustomerDto) (int, RespQueryDto, error) {
@@ -79,18 +95,32 @@ func Query(reqDto ReqQueryDto, custDto ReqCustomerDto) (int, RespQueryDto, error
 		return http.StatusBadRequest, respDto, err
 	}
 	xmlData := string(b)
-	statusCode, err := httpreq.New(http.MethodPost, OPENAPIURL,
+	resp, err := httpreq.New(http.MethodPost, OPENAPIURL,
 		xmlData, func(httpReq *httpreq.HttpReq) error {
 			httpReq.ReqDataType = httpreq.XmlType
-			httpReq.RespDataType = httpreq.XmlType
 			return nil
 		}).
-		Call(&respDto)
+		RawCall()
+	if resp != nil && resp.Body != nil {
+		defer resp.Body.Close()
+	}
 	if err != nil {
 		return http.StatusInternalServerError, respDto, err
 	}
 
-	return statusCode, respDto, nil
+	b, err = ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return http.StatusOK, respDto, err
+	}
+	if CheckSign(b, custDto.Key) == false {
+		return http.StatusOK, respDto, errors.New("response sign error")
+	}
+
+	if err := xml.Unmarshal(b, &respDto); err != nil {
+		return http.StatusOK, respDto, errors.New("response parse error")
+	}
+
+	return resp.StatusCode, respDto, nil
 }
 
 func Refund(reqDto ReqRefundDto, custDto ReqCustomerDto) (int, RespRefundDto, error) {
@@ -123,18 +153,32 @@ func Refund(reqDto ReqRefundDto, custDto ReqCustomerDto) (int, RespRefundDto, er
 		return http.StatusBadRequest, respDto, err
 	}
 	xmlData := string(b)
-	statusCode, err := httpreq.New(http.MethodPost, OPENAPIURL,
+	resp, err := httpreq.New(http.MethodPost, OPENAPIURL,
 		xmlData, func(httpReq *httpreq.HttpReq) error {
 			httpReq.ReqDataType = httpreq.XmlType
-			httpReq.RespDataType = httpreq.XmlType
 			return nil
 		}).
-		Call(&respDto)
+		RawCall()
+	if resp != nil && resp.Body != nil {
+		defer resp.Body.Close()
+	}
 	if err != nil {
 		return http.StatusInternalServerError, respDto, err
 	}
 
-	return statusCode, respDto, nil
+	b, err = ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return http.StatusOK, respDto, err
+	}
+	if CheckSign(b, custDto.Key) == false {
+		return http.StatusOK, respDto, errors.New("response sign error")
+	}
+
+	if err := xml.Unmarshal(b, &respDto); err != nil {
+		return http.StatusOK, respDto, errors.New("response parse error")
+	}
+
+	return resp.StatusCode, respDto, nil
 }
 
 func RefundQuery(reqDto ReqRefundQueryDto, custDto ReqCustomerDto) (int, RespRefundQueryDto, error) {
@@ -159,18 +203,32 @@ func RefundQuery(reqDto ReqRefundQueryDto, custDto ReqCustomerDto) (int, RespRef
 		return http.StatusBadRequest, respDto, err
 	}
 	xmlData := string(b)
-	statusCode, err := httpreq.New(http.MethodPost, OPENAPIURL,
+	resp, err := httpreq.New(http.MethodPost, OPENAPIURL,
 		xmlData, func(httpReq *httpreq.HttpReq) error {
 			httpReq.ReqDataType = httpreq.XmlType
-			httpReq.RespDataType = httpreq.XmlType
 			return nil
 		}).
-		Call(&respDto)
+		RawCall()
+	if resp != nil && resp.Body != nil {
+		defer resp.Body.Close()
+	}
 	if err != nil {
 		return http.StatusInternalServerError, respDto, err
 	}
 
-	return statusCode, respDto, nil
+	b, err = ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return http.StatusOK, respDto, err
+	}
+	if CheckSign(b, custDto.Key) == false {
+		return http.StatusOK, respDto, errors.New("response sign error")
+	}
+
+	if err := xml.Unmarshal(b, &respDto); err != nil {
+		return http.StatusOK, respDto, errors.New("response parse error")
+	}
+
+	return resp.StatusCode, respDto, nil
 }
 
 func IsQuery(resultCode, errCode string) bool {
@@ -268,4 +326,36 @@ func ParsePromotionDetail(str string) (PromotionDetailRespDto, error) {
 		return dto, err
 	}
 	return dto, nil
+}
+
+func XmlToMap(xmlStr string) (map[string]interface{}, error) {
+	data, err := base.XmlToMap(xmlStr)
+	if err != nil {
+		return map[string]interface{}{}, err
+	}
+	v, has := data["xml"]
+	if has == false {
+		return map[string]interface{}{}, errors.New("parse resp failure")
+	}
+	return v.(map[string]interface{}), nil
+}
+
+func CheckSign(b []byte, key string) bool {
+	xmlStr := string(b)
+	respMap, err := XmlToMap(xmlStr)
+	if err != nil {
+		return false
+	}
+	signObj, ok := respMap["sign"]
+	if ok == false {
+		return false
+	}
+	actSign := signObj.(string)
+	delete(respMap, "sign")
+	signStr := base.JoinMapObject(respMap)
+	expSign := sign.MakeMd5Sign(signStr, key)
+	if actSign != expSign {
+		return false
+	}
+	return true
 }

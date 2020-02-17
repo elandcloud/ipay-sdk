@@ -75,7 +75,7 @@ type RespPayDto struct {
 	ErrMsg string `xml:"err_msg,omitempty" json:"err_msg,omitempty"`
 	Sign   string `xml:"sign,omitempty" json:"sign,omitempty"`
 
-	//========== pay resp
+	//========== resp
 
 	Appid       string `xml:"appid,omitempty" json:"appid,omitempty"`
 	Openid      string `xml:"openid,omitempty" json:"openid,omitempty"`
@@ -95,11 +95,11 @@ type RespPayDto struct {
 	CashFee    int    `xml:"cash_fee,omitempty" json:"cash_fee,omitempty"`
 	Mdiscount  int    `xml:"mdiscount,omitempty" json:"mdiscount,omitempty"`
 
-	InvoiceAmount   string          `xml:"invoice_amount,omitempty" json:"invoice_amount,omitempty"`
-	CouponFee       int             `xml:"coupon_fee,omitempty" json:"coupon_fee,omitempty"`
-	PromotionDetail string          `xml:"promotion_detail,omitempty" json:"promotion_detail,omitempty"`
-	FundBillList    FundBillListDto `xml:"fund_bill_list,omitempty" json:"fund_bill_list,omitempty"`
-	BuyerLogonId    string          `xml:"buyer_logon_id,omitempty" json:"buyer_logon_id,omitempty"`
+	InvoiceAmount   string `xml:"invoice_amount,omitempty" json:"invoice_amount,omitempty"`
+	CouponFee       int    `xml:"coupon_fee,omitempty" json:"coupon_fee,omitempty"`
+	PromotionDetail string `xml:"promotion_detail,omitempty" json:"promotion_detail,omitempty"`
+	FundBillList    string `xml:"fund_bill_list,omitempty" json:"fund_bill_list,omitempty"`
+	BuyerLogonId    string `xml:"buyer_logon_id,omitempty" json:"buyer_logon_id,omitempty"`
 
 	BuyerPayAmount      float32 `xml:"buyer_pay_amount,omitempty" json:"buyer_pay_amount,omitempty"`
 	BuyerUserId         string  `xml:"buyer_user_id,omitempty" json:"buyer_user_id,omitempty"`
@@ -117,8 +117,8 @@ type RespPayDto struct {
 }
 
 type FundBillListDto struct {
-	fund_channel string  `xml:"fund_channel,omitempty" json:"fund_channel,omitempty"`
-	amount       float32 `xml:"amount,omitempty" json:"amount,omitempty"`
+	FundChannel string `xml:"fundChannel,omitempty" json:"fundChannel,omitempty"`
+	Amount      string `xml:"amount,omitempty" json:"amount,omitempty"`
 }
 
 // 2.query
@@ -169,7 +169,7 @@ type RespQueryDto struct {
 
 	Sign string `xml:"sign,omitempty" json:"sign,omitempty"`
 
-	//========== pay resp
+	//========== resp
 
 	TradeState     string `xml:"trade_state,omitempty" json:"trade_state,omitempty"`
 	TradeStateDesc string `xml:"trade_state_desc,omitempty" json:"trade_state_desc,omitempty"`
@@ -272,9 +272,10 @@ type RespRefundDto struct {
 	RefundId      string `xml:"refund_id,omitempty" json:"refund_id,omitempty"`
 	RefundChannel string `xml:"refund_channel,omitempty" json:"refund_channel,omitempty"`
 
-	RefundFee       int    `xml:"refund_fee,omitempty" json:"refund_fee,omitempty"`
-	CouponRefundFee int    `xml:"coupon_refund_fee,omitempty" json:"coupon_refund_fee,omitempty"`
-	TradeType       string `xml:"trade_type,omitempty" json:"trade_type,omitempty"`
+	RefundFee        int    `xml:"refund_fee,omitempty" json:"refund_fee,omitempty"`
+	CouponRefundFee  int    `xml:"coupon_refund_fee,omitempty" json:"coupon_refund_fee,omitempty"`
+	TradeType        string `xml:"trade_type,omitempty" json:"trade_type,omitempty"`
+	OutTransactionId string `xml:"out_transaction_id,omitempty" json:"out_transaction_id,omitempty"`
 }
 
 // 4. refund query
@@ -327,7 +328,7 @@ type RespRefundQueryDto struct {
 
 	Sign string `xml:"sign,omitempty" json:"sign,omitempty"`
 
-	//========== pay resp
+	//========== resp
 
 	TransactionId string `xml:"transaction_id,omitempty" json:"transaction_id,omitempty"`
 	OutTradeNo    string `xml:"out_trade_no,omitempty" json:"out_trade_no,omitempty"`
@@ -341,10 +342,13 @@ type RespRefundQueryDto struct {
 	RefundFee       int    `xml:"refund_fee_0,omitempty" json:"refund_fee_0,omitempty"`
 	CouponRefundFee int    `xml:"coupon_refund_fee_0,omitempty" json:"coupon_refund_fee_0,omitempty"`
 
-	Mdiscount    int    `xml:"mdiscount_0,omitempty" json:"mdiscount_0,omitempty"`
-	RefundTime   string `xml:"refund_time_0,omitempty" json:"refund_time_0,omitempty"`
-	RefundStatus string `xml:"refund_status_0,omitempty" json:"refund_status_0,omitempty"`
-	SettleKey    string `xml:"settle_key_0,omitempty" json:"settle_key_0,omitempty"`
+	Mdiscount        int    `xml:"mdiscount_0,omitempty" json:"mdiscount_0,omitempty"`
+	RefundTime       string `xml:"refund_time_0,omitempty" json:"refund_time_0,omitempty"`
+	RefundStatus     string `xml:"refund_status_0,omitempty" json:"refund_status_0,omitempty"`
+	SettleKey        string `xml:"settle_key_0,omitempty" json:"settle_key_0,omitempty"`
+	OutTransactionId string `xml:"out_transaction_id,omitempty" json:"out_transaction_id,omitempty"`
+	TotalFee         int    `xml:"total_fee,omitempty" json:"total_fee,omitempty"`
+	Appid            int    `xml:"appid,omitempty" json:"appid,omitempty"`
 }
 
 // custom
