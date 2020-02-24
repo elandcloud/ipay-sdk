@@ -336,16 +336,16 @@ type RespRefundQueryDto struct {
 	TradeType     string `xml:"trade_type,omitempty" json:"trade_type,omitempty"`
 
 	//Because Alipay can only query a single refund, in order to unified format, all refunds only return one data
-	OutRefundNo      string `xml:"out_refund_no_0,omitempty" json:"out_refund_no_0,omitempty"`
-	RefundId         string `xml:"refund_id_0,omitempty" json:"refund_id_0,omitempty"`
-	RefundChannel    string `xml:"refund_channel_0,omitempty" json:"refund_channel_0,omitempty"`
-	RefundFee        int    `xml:"refund_fee_0,omitempty" json:"refund_fee_0,omitempty"`
-	CouponRefundFee  int    `xml:"coupon_refund_fee_0,omitempty" json:"coupon_refund_fee_0,omitempty"`
-	OutRefundId      string `xml:"out_refund_id_0,omitempty" json:"out_refund_id_0,omitempty"`
-	Mdiscount        int    `xml:"mdiscount_0,omitempty" json:"mdiscount_0,omitempty"`
-	RefundTime       string `xml:"refund_time_0,omitempty" json:"refund_time_0,omitempty"`
-	RefundStatus     string `xml:"refund_status_0,omitempty" json:"refund_status_0,omitempty"`
-	SettleKey        string `xml:"settle_key_0,omitempty" json:"settle_key_0,omitempty"`
+	OutRefundNo      string `xml:"out_refund_no_0,omitempty" json:"out_refund_no,omitempty"`
+	RefundId         string `xml:"refund_id_0,omitempty" json:"refund_id,omitempty"`
+	RefundChannel    string `xml:"refund_channel_0,omitempty" json:"refund_channel,omitempty"`
+	RefundFee        int    `xml:"refund_fee_0,omitempty" json:"refund_fee,omitempty"`
+	CouponRefundFee  int    `xml:"coupon_refund_fee_0,omitempty" json:"coupon_refund_fee,omitempty"`
+	OutRefundId      string `xml:"out_refund_id_0,omitempty" json:"out_refund_id,omitempty"`
+	Mdiscount        int    `xml:"mdiscount_0,omitempty" json:"mdiscount,omitempty"`
+	RefundTime       string `xml:"refund_time_0,omitempty" json:"refund_time,omitempty"`
+	RefundStatus     string `xml:"refund_status_0,omitempty" json:"refund_status,omitempty"`
+	SettleKey        string `xml:"settle_key_0,omitempty" json:"settle_key,omitempty"`
 	OutTransactionId string `xml:"out_transaction_id,omitempty" json:"out_transaction_id,omitempty"`
 	TotalFee         int    `xml:"total_fee,omitempty" json:"total_fee,omitempty"`
 	Appid            string `xml:"appid,omitempty" json:"appid,omitempty"`
